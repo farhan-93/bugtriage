@@ -8,27 +8,20 @@ class TextCNN(object):
 		self.input_y = tf.placeholder(tf.float32, [None, num_classes], name='input_y')
 		self.dropout_keep_prob = tf.placeholder(tf.float32, name='dropout_keep_prob')
 		self.learning_rate = tf.placeholder(tf.float32)
-		#self.W=None
+
 
 		# Keeping track of l2 regularization loss (optional)
 		l2_loss = tf.constant(0.0)
 
-		# Embedding layer
+
 		with tf.device('/cpu:0'), tf.name_scope('embedding'):
 			self.W = tf.Variable(tf.random_uniform([vocab_size, embedding_size], -1.0, 1.0),name='W')
-			# New Addition Start
-			#initW = data_helper.load_embedding_vectors_glove(vocabb,'./glove.6B.100d.txt',100)
-			#self.W=initW
 
-
-
-			# New Addition End
-			
 			self.embedded_chars = tf.nn.embedding_lookup(self.W, self.input_x)
 			self.embedded_chars_expanded = tf.expand_dims(self.embedded_chars, -1)
 
-		print(self.W)
-		# Create a convolution + maxpool layer for each filter size
+
+
 		pooled_outputs = []
 		for i, filter_size in enumerate(filter_sizes):
 			with tf.name_scope('conv-maxpool-%s' % filter_size):
@@ -53,16 +46,16 @@ class TextCNN(object):
 					name='pool')
 				pooled_outputs.append(pooled)
 
-		# Combine all the pooled features
+
 		num_filters_total = num_filters * len(filter_sizes)
 		self.h_pool = tf.concat(pooled_outputs,3)
 		self.h_pool_flat = tf.reshape(self.h_pool, [-1, num_filters_total])
 
-		# Add dropout
+
 		with tf.name_scope('dropout'):
 			self.h_drop = tf.nn.dropout(self.h_pool_flat, self.dropout_keep_prob)
 
-		# Final (unnormalized) scores and predictions
+
 		with tf.name_scope('output'):
 			W = tf.get_variable(
 				'W',
@@ -142,10 +135,5 @@ class TextCNN(object):
 			self.k_10_num_correct = tf.reduce_sum(tf.cast(top_10_correct_predications, 'float'), name='k_10_num_correct')
 
 
-			#original Code
-			
-			"""top_k_correct_predications=tf.nn.in_top_k(self.scores,tf.argmax(self.input_y, 1),5,name="top_k_correct_predications")
-			self.k_accuracy = tf.reduce_mean(tf.cast(top_k_correct_predications, 'float'), name='accuracy')
-			self.num_correct = tf.reduce_sum(tf.cast(correct_predictions, 'float'), name='num_correct')
-			self.k_num_correct = tf.reduce_sum(tf.cast(top_k_correct_predications, 'float'), name='k_num_correct')"""
+
 		
