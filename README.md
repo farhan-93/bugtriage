@@ -8,7 +8,9 @@ Tensorflow 1.14 or 1.15
 
 ## How to Run:
 python train.py ./dataset_file.csv.zip ./parameters.json
+
 or
+
 python3 train.py ./dataset_file.csv.zip ./parameters.json
 
 
