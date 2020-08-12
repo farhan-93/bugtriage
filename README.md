@@ -14,5 +14,6 @@ or
 python3 train.py ./dataset_file.csv.zip ./parameters.json
 
 
+For switching from Word2Vec to GloVe, make change in config file.
 
 
