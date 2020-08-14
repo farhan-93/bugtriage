@@ -16,4 +16,6 @@ python3 train.py ./dataset_file.csv.zip ./parameters.json
 
 For switching from Word2Vec to GloVe, make change in config.yml file. 
 
+### ELMo-CNN
+The elmo CNN code is available at : https://github.com/farhan-93/bugtriage_elmo 
 
